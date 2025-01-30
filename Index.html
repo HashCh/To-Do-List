@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="main-grid">
+        <!-- First Column -->
+        <div class="left-column">
+          <!-- Calendar Section -->
+          <div class="calendar-section">
+            <h2>Task Date</h2>
+            <label for="task-date">Select Date:</label>
+            <input type="date" id="task-date" />
+          </div>
+          <!-- Input Form Section -->
+          <div class="form-section">
+            <h2>Add Task</h2>
+            <form id="task-form">
+              <label for="task-name">Task Name:</label>
+              <input
+                type="text"
+                id="task-name"
+                placeholder="Enter task name"
+                required
+              />
+              <label for="task-time">Time:</label>
+              <input type="time" id="task-time" required />
+              <label for="task-place">Place:</label>
+              <input
+                type="text"
+                id="task-place"
+                placeholder="Enter task place"
+                required
+              />
+              <button type="submit">Add Task</button>
+            </form>
+          </div>
+        </div>
+        <!-- Second Column -->
+        <div class="right-column">
+          <h2>Tasks for <span id="selected-date">[No Date Selected]</span></h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Time</th>
+                <th>Place</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tasks">
+              <!-- Task rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

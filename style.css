@@ -1,0 +1,130 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 80%;
+}
+
+h1,
+h2 {
+    margin-bottom: 10px;
+}
+
+/* Main Grid */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+/* Left Column */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    
+    padding: 15px;
+    border-radius: 5px;
+    height: 100%;
+}
+
+/* Calendar Section */
+.calendar-section {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    height: 50%;
+background: #f9f9f9;
+
+}
+
+.calendar-section label {
+    display: inline-block;
+    margin: 5px ;
+    
+}
+
+/* Form Section */
+.form-section {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+}
+.form-section label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.form-section input,
+.form-section button {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.form-section button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.form-section button:hover {
+    background-color: #0056b3;
+}
+
+/* Task List */
+.right-column {
+    background: #f9f9f9;
+        border: 1px solid #ddd;
+        width: 95%;
+        padding: 15px;
+            border-radius: 5px;
+            height: 100%;
+}
+.right-column table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    
+}
+
+.right-column th,
+.right-column td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.right-column th {
+    background-color: #f0f0f0;
+}
+
+.right-column tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+}
