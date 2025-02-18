@@ -7,6 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectedDate = document.getElementById("selected-date");
   const taskList = document.getElementById("tasks");
 
+  // Sort Order Tracking
+  let sortOrder = {
+    name: "asc",
+    time: "asc",
+    status: "asc",
+  };
+
   let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
 
   // Update tasks when date changes
@@ -57,9 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
     tasks[date].forEach((task, index) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td>${task.name}</td>
-        <td>${task.time}</td>
-        <td>${task.place}</td>
+        <td contenteditable="false">${task.name}</td>
+        <td contenteditable="false">${task.time}</td>
+        <td contenteditable="false">${task.place}</td>
         <td>${task.status}</td>
         <td>
           <button class="edit-btn">Edit</button>
@@ -67,13 +74,22 @@ document.addEventListener("DOMContentLoaded", () => {
         </td>
       `;
 
-      // Edit task functionality
+      // ✅ Edit Task Functionality
       row.querySelector(".edit-btn").addEventListener("click", () => {
         const isEditing = row.classList.toggle("editing");
-        if (!isEditing) {
-          task.name = row.cells[0].textContent.trim();
-          task.time = row.cells[1].textContent.trim();
-          task.place = row.cells[2].textContent.trim();
+        const cells = row.querySelectorAll("td[contenteditable]");
+
+        if (isEditing) {
+          row.querySelector(".edit-btn").textContent = "Save";
+          cells.forEach(cell => cell.contentEditable = "true");
+        } else {
+          row.querySelector(".edit-btn").textContent = "Edit";
+          cells.forEach(cell => cell.contentEditable = "false");
+
+          // ✅ Save updated task details
+          tasks[date][index].name = row.cells[0].textContent.trim();
+          tasks[date][index].time = row.cells[1].textContent.trim();
+          tasks[date][index].place = row.cells[2].textContent.trim();
           localStorage.setItem("tasks", JSON.stringify(tasks));
         }
       });
@@ -88,4 +104,32 @@ document.addEventListener("DOMContentLoaded", () => {
       taskList.appendChild(row);
     });
   }
+
+  // ✅ Sorting Functionality
+  function sortTasks(date, key) {
+    if (!tasks[date]) return;
+
+    const order = sortOrder[key] === "asc" ? 1 : -1;
+    tasks[date].sort((a, b) => {
+      if (a[key] < b[key]) return -order;
+      if (a[key] > b[key]) return order;
+      return 0;
+    });
+
+    // Toggle order for next click
+    sortOrder[key] = sortOrder[key] === "asc" ? "desc" : "asc";
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    displayTasks(date);
+  }
+
+  // ✅ Attach sorting events to table headers
+  document.addEventListener("click", (e) => {
+    const date = taskDate.value;
+    if (!date) return;
+
+    if (e.target.matches("#sort-name")) sortTasks(date, "name");
+    if (e.target.matches("#sort-time")) sortTasks(date, "time");
+    if (e.target.matches("#sort-status")) sortTasks(date, "status");
+  });
 });
