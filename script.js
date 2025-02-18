@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectedDate = document.getElementById("selected-date");
   const taskList = document.getElementById("tasks");
 
-  // Sort Order Tracking
   let sortOrder = {
     name: "asc",
     time: "asc",
@@ -65,36 +64,55 @@ document.addEventListener("DOMContentLoaded", () => {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td contenteditable="false">${task.name}</td>
-        <td contenteditable="false">${task.time}</td>
+        <td contenteditable="false">
+          <input type="time" value="${task.time}" disabled>
+        </td>
         <td contenteditable="false">${task.place}</td>
-        <td>${task.status}</td>
+        <td>
+          <select class="status-select">
+            <option value="Pending" ${task.status === "Pending" ? "selected" : ""}>Pending</option>
+            <option value="Completed" ${task.status === "Completed" ? "selected" : ""}>Completed</option>
+          </select>
+        </td>
         <td>
           <button class="edit-btn">Edit</button>
           <button class="delete-btn">Delete</button>
         </td>
       `;
 
-      // ✅ Edit Task Functionality
+      // ✅ Allow status update via dropdown
+      row.querySelector(".status-select").addEventListener("change", (e) => {
+        tasks[date][index].status = e.target.value;
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      });
+
+      // ✅ Edit Task Functionality (Now with proper input types)
       row.querySelector(".edit-btn").addEventListener("click", () => {
         const isEditing = row.classList.toggle("editing");
-        const cells = row.querySelectorAll("td[contenteditable]");
+        const nameCell = row.cells[0];
+        const timeCell = row.cells[1].querySelector("input");
+        const placeCell = row.cells[2];
 
         if (isEditing) {
           row.querySelector(".edit-btn").textContent = "Save";
-          cells.forEach(cell => cell.contentEditable = "true");
+          nameCell.contentEditable = "true";
+          placeCell.contentEditable = "true";
+          timeCell.disabled = false;
         } else {
           row.querySelector(".edit-btn").textContent = "Edit";
-          cells.forEach(cell => cell.contentEditable = "false");
+          nameCell.contentEditable = "false";
+          placeCell.contentEditable = "false";
+          timeCell.disabled = true;
 
           // ✅ Save updated task details
-          tasks[date][index].name = row.cells[0].textContent.trim();
-          tasks[date][index].time = row.cells[1].textContent.trim();
-          tasks[date][index].place = row.cells[2].textContent.trim();
+          tasks[date][index].name = nameCell.textContent.trim();
+          tasks[date][index].time = timeCell.value.trim();
+          tasks[date][index].place = placeCell.textContent.trim();
           localStorage.setItem("tasks", JSON.stringify(tasks));
         }
       });
 
-      // Delete task functionality
+      // ✅ Delete Task Functionality
       row.querySelector(".delete-btn").addEventListener("click", () => {
         tasks[date].splice(index, 1);
         localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -105,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ✅ Sorting Functionality
+  // ✅ Sorting Functionality (Preserving Sorting When Status & Editing Features Were Added)
   function sortTasks(date, key) {
     if (!tasks[date]) return;
 
@@ -123,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     displayTasks(date);
   }
 
-  // ✅ Attach sorting events to table headers
+  // ✅ Attach Sorting Events to Table Headers
   document.addEventListener("click", (e) => {
     const date = taskDate.value;
     if (!date) return;
