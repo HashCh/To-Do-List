@@ -110,8 +110,9 @@ background: #f9f9f9;
 .right-column th,
 .right-column td {
     border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
+    padding: 12px;
+        /* More space for better readability */
+        text-align: center;
 }
 
 .right-column th {
@@ -127,4 +128,61 @@ background: #f9f9f9;
     .main-grid {
         grid-template-columns: 1fr;
     }
+        .app-header {
+            
+            padding: 5px 10px;
+
+        }
+}
+/* Header Styles */
+/* Header Styles */
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Center content */
+    background: #f9f9f9;
+    color: rgb(5, 2, 2);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 50px;
+    /* Slightly larger */
+    height: 50px;
+    margin-right: 15px;
+}
+
+.right-column th:nth-child(4),
+.right-column td:nth-child(4) {
+    width: 120px;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.edit-btn {
+    background: #ffc107;
+    color: black;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #e0a800;
+}
+
+.delete-btn:hover {
+    background: #c82333;
 }

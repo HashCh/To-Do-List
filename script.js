@@ -26,17 +26,23 @@ document.addEventListener("DOMContentLoaded", () => {
   taskForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const date = taskDate.value;
+    const taskTitle = taskName.value.trim();
 
     if (!date) {
-      alert("Please select a date!");
-      return;
+        alert("Please select a date!");
+        return;
+    }
+
+    if (taskTitle === "") {
+        alert("Task name cannot be empty!");
+        return;
     }
 
     const task = {
-      name: taskName.value.trim(),
-      time: taskTime.value.trim(),
-      place: taskPlace.value.trim(),
-      status: "Pending",
+        name: taskTitle,
+        time: taskTime.value.trim(),
+        place: taskPlace.value.trim(),
+        status: "Pending",
     };
 
     if (!tasks[date]) tasks[date] = [];
@@ -49,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
     taskPlace.value = "";
 
     displayTasks(date);
-  });
+});
+
 
   // Display tasks for the selected date
   function displayTasks(date) {
